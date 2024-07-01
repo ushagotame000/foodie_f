@@ -1,0 +1,8 @@
+create user model
+create user controller
+create user routes
+import app.use("/api/user",userRouter) to the serve.js api endpoint
+
+
+create env file and import to the server and use it in usercontroller(JWT )
+check name email password to the thunderclient post http://localhost/api/user/register to get token 
