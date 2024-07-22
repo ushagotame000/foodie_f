@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../Content/StoreContext";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface LoginPopupProps {
   setShowLogin: (value: boolean) => void;
@@ -44,12 +46,13 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ setShowLogin }) => {
         setToken(response.data.token)
         localStorage.setItem("token", response.data.token);
         setShowLogin(false);
+        toast.success("Login successful!")
       } else {
-        alert(response.data.message);
+        toast.error(response.data.message)
       }
     } catch (error) {
       console.error("Error during authentication:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occuerd. Please try again.")
     }
   };
 

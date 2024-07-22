@@ -43,13 +43,21 @@ const StoreContextProvider: React.FC<StoreContextProviderProps> = (props) => {
   const [token, setToken] = useState<string>("");
 
   
-
-  const addToCart = (item: food_item) => {
+// add to the database only itemId
+  const addToCart = async (item: food_item) => {
     setCartItems((prev) => [...prev, item]);
+    if(token){
+      await axios.post(url + "/api/cart/add",{itemId:item._id},{headers:{token}})
+
+    }
   };
 
-  const removeFromCart = (itemId: string) => {
+  //remove from frontend as well as database
+  const removeFromCart = async (itemId: string) => {
     setCartItems((prev) => prev.filter(item => item._id !== itemId));
+    if(token){
+      await axios.post(url + "/api/cart/remove", {itemId},{headers:{token}})
+    }
   };
 
 
@@ -63,7 +71,7 @@ const getTotalCartAmount = () =>{
 
 const fetchFoodList = async () => {
   try {
-    const response = await axios.get(url + "/list", {
+    const response = await axios.get(url + "/api/food/list", {
       headers: {
         'Authorization': `Bearer ${token}`
       }

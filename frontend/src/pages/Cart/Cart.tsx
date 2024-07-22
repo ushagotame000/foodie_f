@@ -4,22 +4,25 @@ import { StoreContext } from "../../component/Content/StoreContext";
 import Footer from "../../component/Footer/Footer";
 
 const Cart = () => {
-  const { cartItems } = useContext(StoreContext);
+  const { cartItems,food_list,removeFromCart,url } = useContext(StoreContext);
   const navigate = useNavigate();
 
   // Calculate subtotal
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   const deliveryFee =50 ;
 
   // Calculate total
   const total = subtotal + deliveryFee;
+  // Calculate total quantity
+  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
 
   return (
     <div>
       <div className="cart mt-24 ml-24">
         <div className="cart-item">
-          <div className="cart-item-title grid grid-flow-col items-center text-gray-500 font-sans text-xl">
+          <div className="cart-item-title grid grid-flow-col items-center text-gray-500 font-sans text-xl justify-between">
             <p>Item</p>
             <p>Title</p>
             <p>Price</p>
@@ -31,15 +34,15 @@ const Cart = () => {
           <hr />
           {cartItems?.map((item, index) => (
             <div
-              className="cart-item-title flex flex-row gap-14 text-lg text-gray-700 py-4"
+              className="cart-item-title flex   text-lg text-gray-700 py-3 justify-between flex-wrap"
               key={index}
             >
-              <img src={item.image} alt="" className="w-28 rounded-2xl" />
+              <img src={url + "/images/" + item.image} alt="" className="w-16 rounded-full" />
               <p>{item.name}</p>
-              <p>{item.price}</p>
-              <p>{item.quantity}</p>
+              <p>Rs.{item.price}</p>
+              <p>{item.quantity }</p>
               <p>{item.price * item.quantity}</p>
-              <p>X</p>
+              <button onClick={() => removeFromCart(item._id)} className="cursor-pointer  hover:bg-red-300 rounded-md h-6 w-4 ">X</button>
             </div>
           ))}
         </div>

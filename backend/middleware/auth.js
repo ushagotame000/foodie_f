@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"
-import cartRouter from "../routes/cartRoute"
+
+import cartRouter from "../routes/cartRoute.js"
 
 const authMiddleware = async (req,res,next) => {
 const {token} = req.headers;
