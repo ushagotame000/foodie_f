@@ -1,3 +1,4 @@
+import { json } from "express";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe"
@@ -56,7 +57,20 @@ res.json({success:true,session_url:session.url})
     console.log(error);
     res.json({success:false, message:"Error"})
 }
-    
 
+};
+
+ //user orders for frontend
+ 
+ const userOrders = async (req,res) =>{
+    const userId = req.body.userId;
+    console.log("Received userId:",userId);
+    try {
+        const orders = await orderModel.find({userId:req.body.userId})
+        res.json({success:true, data:orders})
+    } catch (error) {
+        console.log(error);
+        res.json({success:false, message:"error"})
+    }
 }
-export {placeOrder};
+export {placeOrder,userOrders};

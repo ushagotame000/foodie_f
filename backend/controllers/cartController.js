@@ -61,6 +61,20 @@ try {
 }
 
 }
+const updateCartData = async (userId, cartData) => {
+    try {
+        // Ensure cartData is an array
+        if (!Array.isArray(cartData)) {
+            throw new Error("Cart data must be an array");
+        }
+
+        await userModel.findByIdAndUpdate(userId, { cartData: cartData });
+        console.log("Cart data updated successfully");
+    } catch (error) {
+        console.log("Error updating cart data:", error);
+    }
+};
+
 
 
 export { addToCart, removeFromCart, getCart}
